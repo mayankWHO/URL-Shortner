@@ -1,0 +1,19 @@
+{
+  "name": "Section 9 - URL Shortner Project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.1",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.3",
+    "express": "^5.2.1"
+  }
+}
