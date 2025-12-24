@@ -1,8 +1,8 @@
 import express from "express";
 import { signupPostRequestBodySchema, loginPostRequestBodySchema } from '../validations/request.validation.js'
 import { hashPasswordWithSalt } from '../utils/hash.js'
-import jwt from 'jsonwebtoken'
 import { getUserByEmail, createUser } from '../services/user.service.js'
+import { createUserToken } from '../utils/token.js'
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
@@ -52,8 +52,8 @@ router.post('/login', async (req, res) => {
         return res.status(400).json({ error: 'Invalid credentials' })
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
-
+    const token = await createUserToken({ id: user.id })
+    
     return res.json({ token });
 })
 export default router;
