@@ -4,24 +4,19 @@ import { usersTable } from '../models/user.model.js'
 
 
 
-export async function getUserByEmail(email, res) {
+export async function getUserByEmail(email) {
     const [existingUser] = await db
         .select({
             id: usersTable.id,
             firstname: usersTable.firstname,
             lastname: usersTable.lastname,
             email: usersTable.email,
+            salt: usersTable.salt,
+            password: usersTable.password
 
         }).
         from(usersTable).
         where(eq(usersTable.email, email))
-
-    if (existingUser) {
-        return res
-            .status(400)
-            .json({ error: 'User already exists' })
-    }
-
 
     return existingUser;
 }
