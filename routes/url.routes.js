@@ -3,17 +3,10 @@ import { shortenPostRequestBodySchema } from '../validations/request.validation.
 import {nanoid} from 'nanoid'
 import {db} from '../db/index.js'
 import {urlsTable} from '../models/index.js'
+import {ensureAuthenticated} from '../middlewares/auth.middleware.js'
 const router = express.Router()
 
-router.post('/shorten', async function (req, res) {
-    const userId = req.user?.id
-
-    if (!userId) {
-        return res
-            .status(401)
-            .json({ error: 'Unauthorized' })
-    }
-
+router.post('/shorten', ensureAuthenticated, async function (req, res) {
     const validationResult = await shortenPostRequestBodySchema.safeParseAsync(req.body)
 
     if (validationResult.error) {
