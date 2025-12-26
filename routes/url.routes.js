@@ -1,5 +1,5 @@
 import express from 'express'
-import {eq} from 'drizzle-orm'
+import {eq,and} from 'drizzle-orm'
 import { shortenPostRequestBodySchema } from '../validations/request.validation.js'
 import {nanoid} from 'nanoid'
 import {db} from '../db/index.js'
@@ -16,7 +16,17 @@ router.get('/codes', ensureAuthenticated, async function (req, res) {
     return res.json(codes)
 })
 
-
+router.delete('/:id', ensureAuthenticated, async function (req, res) {
+    const id = req.params.id;
+    const [result] = await db
+    .delete(urlsTable)
+    .where(and(
+        eq(urlsTable.id,id),
+        eq(urlsTable.userId,req.user.id)
+    ))
+    return res.status(204).json({deleted:true})
+})
+ 
 router.post('/shorten', ensureAuthenticated, async function (req, res) {
     const validationResult = await shortenPostRequestBodySchema.safeParseAsync(req.body)
 
