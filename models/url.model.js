@@ -1,10 +1,10 @@
-import {pgTable,uuid,varchar, text, timestamp} from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, timestamp } from "drizzle-orm/pg-core";
 import { usersTable } from "./user.model.js";
 
 
 export const urlsTable = pgTable('urls', {
-    id: uuid('id').primaryKey(),
-    shortCode: varchar('code', {length:155}).notNull().unique(),
+    id: uuid('id').defaultRandom().primaryKey(),
+    shortCode: varchar('code', { length: 155 }).notNull().unique(),
     targetURL: text('target-url').notNull(),
     userId: uuid('user_id')
         .references(() => usersTable.id)
