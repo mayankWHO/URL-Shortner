@@ -14,9 +14,8 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.use(urlRouter)
-
 app.use('/user', userRouter)
+app.use(urlRouter)
 app.get('/', (req, res) => {
     res.send('Server is up and running!');
 });
